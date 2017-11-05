@@ -74,6 +74,9 @@ parser.add_argument(
     help='coin type to generate account address for',
     choices=['BITCOIN', 'ETHER'])
 args = parser.parse_args()
-if args.coin_type not in COIN_ADDR_HELPERS:
+if not args.coin_type:
+    parser.print_help()
+elif args.coin_type not in COIN_ADDR_HELPERS:
     raise Exception('Unsupported coin type')
-COIN_ADDR_HELPERS[args.coin_type]()
+else:
+    COIN_ADDR_HELPERS[args.coin_type]()
