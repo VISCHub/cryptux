@@ -1,0 +1,75 @@
+#!/usr/bin/env python
+
+import argparse
+import getpass
+from bitcoin.gen_addr import bitcoin_addr_from_priv_key_wif
+from bitcoin.gen_addr import guess_wif_details
+from bitcoin.constants import MAINNET, TESTNET
+from bitcoin.constants import COMPRESSED, UNCOMPRESSED
+
+
+def bitcoin_addr_from_wif():
+    '''Generate Bitcoin address by requesting WIF'''
+    priv_key_wif = getpass.getpass(prompt='WIF for Private Key: ')
+    wif_details = guess_wif_details(priv_key_wif)
+    bitcoin_addr = bitcoin_addr_from_priv_key_wif(priv_key_wif)
+    return (bitcoin_addr, wif_details['network_type'], wif_details['key_fmt'])
+
+
+def bitcoin_addr_from_hex():
+    '''Generate Bitcoin address by requesting HEX data'''
+    net_types = [MAINNET, TESTNET]
+    key_formats = [COMPRESSED, UNCOMPRESSED]
+    network_type, key_fmt = None, None
+    while network_type not in net_types:
+        network_type = raw_input('Network type (%s): ' %
+                '/'.join(net_types))
+    while key_fmt not in key_formats:
+        network_type = raw_input('Public key format (%s): ' %
+                '/'.join(key_formats))
+    priv_key_hex = getpass.getpass(prompt='HEX for Private Key: ')
+    bitcoin_addr = bitcoin_addr_from_priv_key_hex(
+            priv_key_hex, network_type, key_fmt)
+    return (bitcoin_addr, network_type, key_fmt)
+
+
+BITCOIN_GEN_HELPERS = {
+        'WIF': bitcoin_addr_from_wif,
+        'HEX': bitcoin_addr_from_hex,
+}
+
+PRIV_KEY_FORMATS = ['HEX', 'WIF']
+
+
+def gen_bitcoin_addr_helper():
+    '''Helper to collect inputs for Bitcoin address'''
+    str_priv_key_fmts = '/'.join(PRIV_KEY_FORMATS)
+    priv_key_fmt = None
+    while priv_key_fmt not in PRIV_KEY_FORMATS:
+        priv_key_fmt = raw_input('Private key format (%s):\n\t' %
+                str_priv_key_fmts)
+        priv_key_fmt = priv_key_fmt.upper()
+    bitcoin_addr, network_type, key_fmt = BITCOIN_GEN_HELPERS[priv_key_fmt]()
+    print('='*64)
+    print('Network type:\n\t%s' % network_type)
+    print('Public key format:\n\t%s' % key_fmt)
+    print('Generated Bitcoin address:\n\t%s' % bitcoin_addr)
+    print('='*64)
+    return bitcoin_addr
+
+
+COIN_ADDR_HELPERS = {
+    'BITCOIN': gen_bitcoin_addr_helper,
+}
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    '-t',
+    '--coin-type',
+    type=str,
+    help='coin type to generate account address for',
+    choices=['BITCOIN', 'ETHER'])
+args = parser.parse_args()
+if args.coin_type not in COIN_ADDR_HELPERS:
+    raise Exception('Unsupported coin type')
+COIN_ADDR_HELPERS[args.coin_type]()
