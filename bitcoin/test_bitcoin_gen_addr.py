@@ -3,10 +3,10 @@
 # https://bitcoin.stackexchange.com/questions/56520/how-to-generate-a-testnet-address
 # https://www.bitaddress.org/?testnet=true
 
-import constants as BCONST
-from gen_addr import bitcoin_addr_from_priv_key_wif
-from gen_addr import bitcoin_addr_from_priv_key_hex
-from gen_addr import verify_bitcoin_addr
+import bitcoin.constants as BCONST
+from bitcoin.gen_addr import bitcoin_addr_from_priv_key_wif
+from bitcoin.gen_addr import bitcoin_addr_from_priv_key_hex
+from bitcoin.gen_addr import verify_bitcoin_addr
 
 TEST_CASES_HEX = [
     {

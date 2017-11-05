@@ -9,6 +9,7 @@ from bitcoin.constants import MAINNET, TESTNET
 from bitcoin.constants import COMPRESSED, UNCOMPRESSED
 
 # https://pymotw.com/2/getpass/
+# https://github.com/pexpect/pexpect
 
 
 def bitcoin_addr_from_wif():
