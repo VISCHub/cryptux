@@ -12,8 +12,8 @@ from bitcoin.constants import COMPRESSED, UNCOMPRESSED
 # https://pymotw.com/2/getpass/
 # https://github.com/pexpect/pexpect
 
-if sys.version_info[0] == 3:
-    raw_input = input
+if sys.version_info[0] == 2:
+    input = raw_input
 
 
 def bitcoin_addr_from_wif():
@@ -30,10 +30,10 @@ def bitcoin_addr_from_hex():
     key_formats = [COMPRESSED, UNCOMPRESSED]
     network_type, key_fmt = None, None
     while network_type not in net_types:
-        network_type = raw_input('Network type (%s): ' % '/'.join(net_types))
+        network_type = input('Network type (%s): ' % '/'.join(net_types))
         network_type = network_type.upper()
     while key_fmt not in key_formats:
-        key_fmt = raw_input('Public key format (%s): ' % '/'.join(key_formats))
+        key_fmt = input('Public key format (%s): ' % '/'.join(key_formats))
         key_fmt = key_fmt.upper()
     priv_key_hex = getpass.getpass(prompt='HEX for Private Key: ')
     bitcoin_addr = bitcoin_addr_from_priv_key_hex(priv_key_hex, network_type,
@@ -54,7 +54,7 @@ def gen_bitcoin_addr_helper():
     str_priv_key_fmts = '/'.join(PRIV_KEY_FORMATS)
     priv_key_fmt = None
     while priv_key_fmt not in PRIV_KEY_FORMATS:
-        priv_key_fmt = raw_input(
+        priv_key_fmt = input(
             'Private key format (%s):\n\t' % str_priv_key_fmts)
         priv_key_fmt = priv_key_fmt.upper()
     bitcoin_addr, network_type, key_fmt = BITCOIN_GEN_HELPERS[priv_key_fmt]()
@@ -80,7 +80,8 @@ parser.add_argument(
 args = parser.parse_args()
 if not args.coin_type:
     parser.print_help()
-elif args.coin_type not in COIN_ADDR_HELPERS:
+    exit(0)
+if args.coin_type not in COIN_ADDR_HELPERS:
     raise Exception('Unsupported coin type')
 else:
     COIN_ADDR_HELPERS[args.coin_type]()
