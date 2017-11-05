@@ -12,6 +12,7 @@ from bitcoin.gen_addr import bitcoin_addr_from_priv_key_hex
 from bitcoin.gen_addr import guess_wif_details
 from bitcoin.constants import MAINNET, TESTNET
 from bitcoin.constants import COMPRESSED, UNCOMPRESSED
+from bitcoin.wif import priv_key_to_wif
 
 # https://pymotw.com/2/getpass/
 # https://github.com/pexpect/pexpect
@@ -56,11 +57,14 @@ def bitcoin_addr_from_generator():
     network_type, key_fmt = input_net_type_key_fmt()
     sk = SigningKey.generate(curve=SECP256k1)
     priv_key_raw = sk.to_string()
-    priv_key_hex = hexlify(priv_key_raw).upper()
-    print('='*64)
+    priv_key_wif = priv_key_to_wif(priv_key_raw, network_type, key_fmt)
+    priv_key_hex = hexlify(priv_key_raw).upper().decode('utf-8')
+    print('=' * 64)
     print('Remember to protect the Private Key!')
-    print('='*32)
+    print('=' * 32)
     print('Private Key in HEX: %s' % priv_key_hex)
+    print('Private Key in WIF: %s' % priv_key_wif)
+    bitcoin_addr = bitcoin_addr_from_priv_key_wif(priv_key_wif)
     bitcoin_addr = bitcoin_addr_from_priv_key_hex(priv_key_hex, network_type,
                                                   key_fmt)
     return (bitcoin_addr, network_type, key_fmt)

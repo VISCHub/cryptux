@@ -110,15 +110,15 @@ def base58check(version, payload):
 
     # Add the 4 checksum bytes from stage 7 at the end of
     # extended RIPEMD-160 hash from stage 4.
-    # This is the 25-byte binary Bitcoin Address.
-    bitcoin_addr_raw = combined_payload + checksum_4bytes
-    assert len(bitcoin_addr_raw) == 25
+    base58cksum_raw = combined_payload + checksum_4bytes
+    # Bitcoin Address should have length of 25 bytes
+    # assert len(base58cksum_raw) == 25
 
     # Convert the result from a byte string into a base58 string
     # using Base58Check encoding.
     # This is the most commonly used Bitcoin Address format
-    bitcoin_addr = base256_to_base58(bitcoin_addr_raw)
+    base58cksum = base256_to_base58(base58cksum_raw)
     # Quick validation
-    bitcoin_addr_raw_again = base58_to_base256(bitcoin_addr)
-    assert bitcoin_addr_raw_again == bitcoin_addr_raw
-    return bitcoin_addr
+    base58cksum_raw_again = base58_to_base256(base58cksum)
+    assert base58cksum_raw_again == base58cksum_raw
+    return base58cksum
