@@ -64,14 +64,13 @@ def pub_key_from_priv_key_hex(priv_key_hex):
 
 def bitcoin_addr_from_priv_key_hex(priv_key_hex, network_type, key_fmt):
     '''Create Bitcoin address from the private key in HEX'''
-    # Step 0: Having a private ECDSA key
-    # Step 1: Take the corresponding public key generated with it
+    # Generate ECDSA public key from the private key
     pub_key_raw = pub_key_from_priv_key_hex(priv_key_hex)
     pub_key_formatted = PUB_KEY_FORMATS[key_fmt](pub_key_raw)
     return bitcoin_addr_from_pub_key(pub_key_formatted, network_type)
 
 
-def extract_priv_key_from_wif(priv_key_wif):
+def priv_key_from_wif(priv_key_wif):
     '''Extract raw private key from the WIF string'''
     wif_details = guess_wif_details(priv_key_wif)
     network_type = wif_details['network_type']
@@ -82,23 +81,24 @@ def extract_priv_key_from_wif(priv_key_wif):
         assert len(decoded_wif) == 38
         network_prefix, priv_key_raw = decoded_wif[0:1], decoded_wif[1:33]
         padding, checksum = decoded_wif[33:34], decoded_wif[34:]
-        to_be_cksum = decoded_wif[:34]
+        payload = decoded_wif[:34]
         assert padding == b'\x01'
     elif key_fmt == BCONST.UNCOMPRESSED:
         assert len(decoded_wif) == 37
-        network_prefix, priv_key_raw, checksum = decoded_wif[0:1], decoded_wif[1:33], decoded_wif[33:]
-        to_be_cksum = decoded_wif[:33]
+        payload = decoded_wif[:33]
+        checksum = decoded_wif[33:]
+        network_prefix, priv_key_raw = payload[:1], payload[1:]
     else:
         raise Exception('Invalid key format: %s' % key_fmt)
     assert network_prefix == NETWORK_TYPES[network_type][BCONST.PRIVKEY]
-    assert hash256(to_be_cksum)[:4] == checksum
+    assert hash256(payload)[:4] == checksum
     return (priv_key_raw, network_type, key_fmt)
 
 
 def pub_key_from_priv_key_wif(priv_key_wif):
     '''Obtain public key from the private key in WIF'''
     # Obtain the raw public key from raw private key
-    priv_key_raw, network_type, key_fmt = extract_priv_key_from_wif(priv_key_wif)
+    priv_key_raw, network_type, key_fmt = priv_key_from_wif(priv_key_wif)
     signing_key = SigningKey.from_string(priv_key_raw, curve=SECP256k1)
     vk = signing_key.get_verifying_key()
     pub_key_raw = vk.to_string()
@@ -107,17 +107,17 @@ def pub_key_from_priv_key_wif(priv_key_wif):
 
 def bitcoin_addr_from_priv_key_wif(priv_key_wif):
     '''Create Bitcoin address from the private key'''
-    # Step 0: Having a private ECDSA key
-    # Step 1: Take the corresponding public key generated with it
-    pub_key_raw, network_type, key_fmt = pub_key_from_priv_key_wif(priv_key_wif)
+    # Generate ECDSA public key from the private key
+    pub_key_raw, network_type, key_fmt = pub_key_from_priv_key_wif(
+        priv_key_wif)
     pub_key_formatted = PUB_KEY_FORMATS[key_fmt](pub_key_raw)
     return bitcoin_addr_from_pub_key(pub_key_formatted, network_type)
 
 
 def bitcoin_addr_from_pub_key(pub_key_formatted, network_type):
     '''Create Bitcoin address from the public key'''
-    # Step 2: Perform SHA-256 hashing on the public key
-    # Step 3: Perform RIPEMD-160 hashing on the result of SHA-256
+    # Perform SHA-256 hashing on the public key
+    # Perform RIPEMD-160 hashing on the result of SHA-256
     vk_hash160 = hash160(pub_key_formatted)
     version = NETWORK_TYPES[network_type][BCONST.PUBKEY]
 
@@ -130,7 +130,8 @@ def verify_bitcoin_addr(bitcoin_addr):
     '''Verify Bitcoin address'''
     bitcoin_addr_raw = base58_to_base256(bitcoin_addr)
     assert len(bitcoin_addr_raw) == 25
-    fmt_pubkey_hash, checksum_4bytes = bitcoin_addr_raw[:21], bitcoin_addr_raw[21:]
+    fmt_pubkey_hash = bitcoin_addr_raw[:21]
+    checksum_4bytes = bitcoin_addr_raw[21:]
 
     # Verify that the double SHA-256 has the same prefix as checksum_4bytes
     full_checksum = hash256(fmt_pubkey_hash)

@@ -8,13 +8,16 @@ from gen_addr import bitcoin_addr_from_priv_key_wif
 from gen_addr import bitcoin_addr_from_priv_key_hex
 from gen_addr import verify_bitcoin_addr
 
-
 TEST_CASES_HEX = [
     {
-        'priv': '18E14A7B6A307F426A94F8114701E7C8E774E7F9A47E2C2035DB29A206321725',
-        'addr': '16UwLL9Risc3QfPqBUvKofHmBQ7wMtjvM',
-        'key_fmt': BCONST.UNCOMPRESSED,
-        'network_type': BCONST.MAINNET,
+        'priv':
+        '18E14A7B6A307F426A94F8114701E7C8E774E7F9A47E2C2035DB29A206321725',
+        'addr':
+        '16UwLL9Risc3QfPqBUvKofHmBQ7wMtjvM',
+        'key_fmt':
+        BCONST.UNCOMPRESSED,
+        'network_type':
+        BCONST.MAINNET,
     },
 ]
 
@@ -41,6 +44,7 @@ TEST_CASES_WIF = [
     },
 ]
 
+
 def test_gen_addr_from_priv_key_wif():
     '''Test Bitcoin address generation from private keys in WIF'''
     for test_case in TEST_CASES_WIF:
@@ -51,6 +55,7 @@ def test_gen_addr_from_priv_key_wif():
         assert verify_bitcoin_addr(bitcoin_addr)
         print('This case was successful!')
 
+
 def test_gen_addr_from_priv_key_hex():
     '''Test Bitcoin address generation from private keys in HEX'''
     for test_case in TEST_CASES_HEX:
@@ -58,8 +63,8 @@ def test_gen_addr_from_priv_key_hex():
         priv_key_hex = test_case['priv']
         key_fmt = test_case['key_fmt']
         network_type = test_case['network_type']
-        bitcoin_addr = bitcoin_addr_from_priv_key_hex(
-            priv_key_hex, network_type, key_fmt)
+        bitcoin_addr = bitcoin_addr_from_priv_key_hex(priv_key_hex,
+                                                      network_type, key_fmt)
         assert bitcoin_addr == test_case['addr']
         assert verify_bitcoin_addr(bitcoin_addr)
         print('This case was successful!')
