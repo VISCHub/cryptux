@@ -46,14 +46,12 @@ BITCOIN_GEN_HELPERS = {
     'HEX': bitcoin_addr_from_hex,
 }
 
-PRIV_KEY_FORMATS = ['HEX', 'WIF']
-
 
 def gen_bitcoin_addr_helper():
     '''Helper to collect inputs for Bitcoin address'''
-    str_priv_key_fmts = '/'.join(PRIV_KEY_FORMATS)
+    str_priv_key_fmts = '/'.join(BITCOIN_GEN_HELPERS.keys())
     priv_key_fmt = None
-    while priv_key_fmt not in PRIV_KEY_FORMATS:
+    while priv_key_fmt not in BITCOIN_GEN_HELPERS:
         priv_key_fmt = input(
             'Private key format (%s):\n\t' % str_priv_key_fmts)
         priv_key_fmt = priv_key_fmt.upper()
@@ -76,7 +74,7 @@ parser.add_argument(
     '--coin-type',
     type=str,
     help='coin type to generate account address for',
-    choices=['BITCOIN', 'ETHER'])
+    choices=[COIN_ADDR_HELPERS.keys()])
 args = parser.parse_args()
 if not args.coin_type:
     parser.print_help()
