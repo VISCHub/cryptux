@@ -42,6 +42,10 @@ TEST_CASES_WIF = [
         'priv': 'cSDWGTNWzNtLzJE5SspMeKT4w6gKcGnsP2USGaM87p1rpD6VF5b9',
         'addr': 'mn9DYsMDMrSkRK3jedNhMwPpBcQ5JyrXAb',
     },
+    {
+        'priv': 'L5DWDzHGBzTUU6uEXDWMCiSfacys1z2y4sFznPnFAzstJ3KkHix4',
+        'addr': '15LsCQHu4kPXxb9maM3cfnQHSpPPFzbr7p',
+    },
 ]
 
 
