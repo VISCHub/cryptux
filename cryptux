@@ -3,6 +3,10 @@
 import argparse
 import getpass
 import sys
+from binascii import hexlify
+
+from ecdsa import SigningKey, SECP256k1
+
 from bitcoin.gen_addr import bitcoin_addr_from_priv_key_wif
 from bitcoin.gen_addr import bitcoin_addr_from_priv_key_hex
 from bitcoin.gen_addr import guess_wif_details
@@ -24,8 +28,8 @@ def bitcoin_addr_from_wif():
     return (bitcoin_addr, wif_details['network_type'], wif_details['key_fmt'])
 
 
-def bitcoin_addr_from_hex():
-    '''Generate Bitcoin address by requesting HEX data'''
+def input_net_type_key_fmt():
+    '''Utility function to get network type & pub key format'''
     net_types = [MAINNET, TESTNET]
     key_formats = [COMPRESSED, UNCOMPRESSED]
     network_type, key_fmt = None, None
@@ -35,7 +39,28 @@ def bitcoin_addr_from_hex():
     while key_fmt not in key_formats:
         key_fmt = input('Public key format (%s): ' % '/'.join(key_formats))
         key_fmt = key_fmt.upper()
+    return (network_type, key_fmt)
+
+
+def bitcoin_addr_from_hex():
+    '''Generate Bitcoin address by requesting HEX data'''
+    network_type, key_fmt = input_net_type_key_fmt()
     priv_key_hex = getpass.getpass(prompt='HEX for Private Key: ')
+    bitcoin_addr = bitcoin_addr_from_priv_key_hex(priv_key_hex, network_type,
+                                                  key_fmt)
+    return (bitcoin_addr, network_type, key_fmt)
+
+
+def bitcoin_addr_from_generator():
+    '''Generate Private Key and then derive Bitcoin address'''
+    network_type, key_fmt = input_net_type_key_fmt()
+    sk = SigningKey.generate(curve=SECP256k1)
+    priv_key_raw = sk.to_string()
+    priv_key_hex = hexlify(priv_key_raw).upper()
+    print('='*64)
+    print('Remember to protect the Private Key!')
+    print('='*32)
+    print('Private Key in HEX: %s' % priv_key_hex)
     bitcoin_addr = bitcoin_addr_from_priv_key_hex(priv_key_hex, network_type,
                                                   key_fmt)
     return (bitcoin_addr, network_type, key_fmt)
@@ -44,6 +69,7 @@ def bitcoin_addr_from_hex():
 BITCOIN_GEN_HELPERS = {
     'WIF': bitcoin_addr_from_wif,
     'HEX': bitcoin_addr_from_hex,
+    'NEW': bitcoin_addr_from_generator,
 }
 
 
@@ -74,7 +100,7 @@ parser.add_argument(
     '--coin-type',
     type=str,
     help='coin type to generate account address for',
-    choices=[COIN_ADDR_HELPERS.keys()])
+    choices=COIN_ADDR_HELPERS.keys())
 args = parser.parse_args()
 if not args.coin_type:
     parser.print_help()
