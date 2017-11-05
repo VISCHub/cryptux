@@ -1,4 +1,5 @@
 import binascii
+import sys
 from hashes import hash256
 
 # https://www.bitaddress.org/
@@ -43,8 +44,8 @@ def base58_dec(in_str):
     return out_num
 
 
-def base256_to_base58(raw_str):
-    '''Convert a raw string to Base58 string'''
+def base256_to_base58_py3(raw_str):
+    '''Convert a raw string to Base58 string. For Python 3'''
     leading_zeros = 0
     num = 0
     for c in raw_str:
@@ -55,6 +56,27 @@ def base256_to_base58(raw_str):
         num = num * 256 + c
     base58_str = ''.join(leading_zeros * ['1']) + base58_enc(num)
     return base58_str
+
+
+def base256_to_base58_py2(raw_str):
+    '''Convert a raw string to Base58 string. For Python 2'''
+    leading_zeros = 0
+    num = 0
+    for c in raw_str:
+        if c != 0:
+            break
+        leading_zeros = leading_zeros + 1
+    for c in raw_str:
+        num = num * 256 + ord(c)
+    base58_str = ''.join(leading_zeros * ['1']) + base58_enc(num)
+    return base58_str
+
+
+def base256_to_base58(raw_str):
+    '''Convert a raw string to Base58 string'''
+    if sys.version_info[0] < 3:
+        return base256_to_base58_py2(raw_str)
+    return base256_to_base58_py3(raw_str)
 
 
 def base58_to_base256(base58_str):
