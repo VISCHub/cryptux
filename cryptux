@@ -2,6 +2,7 @@
 
 import argparse
 import getpass
+import sys
 from bitcoin.gen_addr import bitcoin_addr_from_priv_key_wif
 from bitcoin.gen_addr import bitcoin_addr_from_priv_key_hex
 from bitcoin.gen_addr import guess_wif_details
@@ -10,6 +11,9 @@ from bitcoin.constants import COMPRESSED, UNCOMPRESSED
 
 # https://pymotw.com/2/getpass/
 # https://github.com/pexpect/pexpect
+
+if sys.version_info[0] == 3:
+    raw_input = input
 
 
 def bitcoin_addr_from_wif():
