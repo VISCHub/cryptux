@@ -1,0 +1,99 @@
+# https://www.bitaddress.org/
+# https://github.com/pointbiz/bitaddress.org
+# https://en.wikipedia.org/wiki/Base58
+
+BASE58_CHARS = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
+
+import binascii
+from hashes import hash256
+
+def map_base58():
+    '''Create a map of chars for Base58'''
+    tmp_dir = {}
+    i = 0
+    for c in BASE58_CHARS:
+        tmp_dir[c] = i
+        i = i + 1
+    return tmp_dir
+
+
+BASE58_MAP = map_base58()
+
+
+def base58_enc(in_num):
+    '''Encode a number into Bitcoin Base58 format'''
+    if in_num < 0:
+        raise Exception("Positive integers only")
+    tmp_out = []
+    while in_num > 0:
+        tmp_out.append(BASE58_CHARS[in_num % 58])
+        in_num = in_num // 58
+    tmp_out.reverse()
+    return ''.join(tmp_out)
+
+
+def base58_dec(in_str):
+    '''Decode a Bitcoin Base58 string to a number'''
+    out_num = 0
+    for c in in_str:
+        if c not in BASE58_MAP:
+            raise Exception("Invalid char, not in Base58: %c" % c)
+        out_num = out_num*58 + BASE58_MAP[c]
+    return out_num
+
+
+def base256_to_base58(raw_str):
+    '''Convert a raw string to Base58 string'''
+    leading_zeros = 0
+    num = 0
+    for c in raw_str:
+        if c != 0:
+            break
+        leading_zeros = leading_zeros + 1
+    for c in raw_str:
+        num = num*256 + c
+    base58_str = ''.join(leading_zeros*['1']) + base58_enc(num)
+    return base58_str
+
+
+def base58_to_base256(base58_str):
+    '''Convert a Base58 string to raw string'''
+    leading_ones = 0
+    for c in base58_str:
+        if c != '1':
+            break
+        leading_ones = leading_ones + 1
+    num = base58_dec(base58_str)
+    raw_str_suffix_hex = '%02x' % num
+    if len(raw_str_suffix_hex) % 2:
+        raw_str_suffix_hex = '0%s' % raw_str_suffix_hex
+    raw_str_hex = ''.join(leading_ones*['00']) + raw_str_suffix_hex
+    raw_str = binascii.unhexlify(raw_str_hex)
+    return raw_str
+
+
+def base58check(version, payload):
+    '''Implements Base58Check standard function'''
+    # Step 4: Add version byte in front of RIPEMD-160 hash (0x00 for Main Network)
+    combined_payload = version + payload
+
+    # Step 5: Perform SHA-256 hash on the extended RIPEMD-160 result
+    # Step 6: Perform SHA-256 hash on the result of the previous SHA-256 hash
+    full_checksum = hash256(combined_payload)
+
+    # Step 7: Take the first 4 bytes of the second SHA-256 hash. This is the address checksum
+    checksum_4bytes = full_checksum[:4]
+
+    # Step 8: Add the 4 checksum bytes from stage 7 at the end of
+    # extended RIPEMD-160 hash from stage 4.
+    # This is the 25-byte binary Bitcoin Address.
+    bitcoin_addr_raw = combined_payload + checksum_4bytes
+    assert len(bitcoin_addr_raw) == 25
+
+    # Step 9: Convert the result from a byte string into a base58 string using Base58Check encoding.
+    # This is the most commonly used Bitcoin Address format
+    bitcoin_addr = base256_to_base58(bitcoin_addr_raw)
+    # Quick validation
+    bitcoin_addr_raw_again = base58_to_base256(bitcoin_addr)
+    assert bitcoin_addr_raw_again == bitcoin_addr_raw
+    return bitcoin_addr
