@@ -63,7 +63,7 @@ def base256_to_base58_py2(raw_str):
     leading_zeros = 0
     num = 0
     for c in raw_str:
-        if c != 0:
+        if c != '\x00':
             break
         leading_zeros = leading_zeros + 1
     for c in raw_str:
