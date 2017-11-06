@@ -1,7 +1,7 @@
-from bitcoin.base58 import base58check
-from bitcoin.constants import MAINNET, TESTNET
-from bitcoin.constants import COMPRESSED, UNCOMPRESSED
-from bitcoin.constants import NETWORK_TYPES, PRIVKEY
+from cryptux.bitcoin.base58 import base58check
+from cryptux.bitcoin.constants import MAINNET, TESTNET
+from cryptux.bitcoin.constants import COMPRESSED, UNCOMPRESSED
+from cryptux.bitcoin.constants import NETWORK_TYPES, PRIVKEY
 
 
 def priv_key_to_wif(priv_key_raw, network_type, key_fmt):
