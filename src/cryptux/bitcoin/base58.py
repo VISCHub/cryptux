@@ -1,6 +1,6 @@
 import binascii
 import sys
-from cryptux.bitcoin.hashes import hash256
+from .hashes import hash256
 
 # https://www.bitaddress.org/
 # https://github.com/pointbiz/bitaddress.org

@@ -7,12 +7,13 @@ from binascii import hexlify
 
 from ecdsa import SigningKey, SECP256k1
 
-from cryptux.bitcoin.gen_addr import bitcoin_addr_from_priv_key_wif
-from cryptux.bitcoin.gen_addr import bitcoin_addr_from_priv_key_hex
-from cryptux.bitcoin.gen_addr import guess_wif_details
-from cryptux.bitcoin.constants import MAINNET, TESTNET
-from cryptux.bitcoin.constants import COMPRESSED, UNCOMPRESSED
-from cryptux.bitcoin.wif import priv_key_to_wif
+from cryptux import bitcoin
+from bitcoin.gen_addr import bitcoin_addr_from_priv_key_wif
+from bitcoin.gen_addr import bitcoin_addr_from_priv_key_hex
+from bitcoin.gen_addr import guess_wif_details
+from bitcoin.constants import MAINNET, TESTNET
+from bitcoin.constants import COMPRESSED, UNCOMPRESSED
+from bitcoin.wif import priv_key_to_wif
 
 # https://pymotw.com/2/getpass/
 # https://github.com/pexpect/pexpect

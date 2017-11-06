@@ -5,10 +5,11 @@
 
 from ecdsa import SigningKey, SECP256k1
 from binascii import hexlify
-import cryptux.bitcoin.constants as BCONST
-from cryptux.bitcoin.constants import NETWORK_TYPES
-from cryptux.bitcoin.hashes import hash160, hash256
-from cryptux.bitcoin.base58 import base58_to_base256, base58check
+
+from . import constants as BCONST
+from .constants import NETWORK_TYPES
+from .hashes import hash160, hash256
+from .base58 import base58_to_base256, base58check
 
 
 def get_compressed_pub_key(pub_key_raw):
