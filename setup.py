@@ -6,7 +6,7 @@
 from setuptools import setup, find_packages
 
 setup(name='cryptux',
-      version='0.0.4',
+      version='0.0.5',
       description='Simple wallet for Cryptocurrencies',
       author='Viet Le',
       author_email='vietlq85@gmail.com',
