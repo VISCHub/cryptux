@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.org/VISCHub/crypto-wallets.svg?branch=master)](https://travis-ci.org/VISCHub/crypto-wallets)
+[![Build Status](https://travis-ci.org/VISCHub/cryptux.svg?branch=master)](https://travis-ci.org/VISCHub/cryptux)
 
-# crypto-wallets
-Code examples for operating on Cryptocurrency accounts and wallets. The library also provides an interactive tool `cryptux` to generate accounts addresses to receive cryptocurrencies.
+# cryptux
+Wallet for cryptocurrencies created with education purposes. You can use cryptux to operate on cryptocurrency wallets. You can interactivele generate accounts addresses to receive cryptocurrencies.
 
 ## Usage
 

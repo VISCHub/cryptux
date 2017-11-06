@@ -6,11 +6,13 @@ try:
 except ImportError:
     from distutils.core import setup
 
-setup(name='CryptoWallets',
+setup(name='cryptux',
       version='0.0.1',
-      description='Sample wallets for Cryptocurrencies',
+      description='Simple wallet for Cryptocurrencies',
       author='Viet Le',
       author_email='vietlq85@gmail.com',
-      url='https://github.com/VISCHub/crypto-wallets',
+      url='https://github.com/VISCHub/cryptux',
       packages=['bitcoin'],
-      scripts=['cryptux'])
+      scripts=['cryptux'],
+      keywords=['crypto', 'hdw', 'wallet', 'bitcoin', 'ether'],
+      classifiers=[])
