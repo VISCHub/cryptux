@@ -30,21 +30,17 @@ A sample session would go like this:
 
 ```
 $ cryptux -t BITCOIN
-Private key format (WIF/HEX/NEW):
-    new
+Private key format (WIF/HEX/NEW): new
 Network type (MAINNET/TESTNET): mainnet
 Public key format (COMPRESSED/UNCOMPRESSED): compressed
 ================================================================
 Remember to protect the Private Key!
 ================================
-Private Key in HEX: 460A10378746800A048E131075B09286A219527DAB2EE9EEEB34C4CD44F31469
-Private Key in WIF: KyZrj4XaKTNmS6XCxGRgicCN3FVXkPnzeJgfmKEUEBVJMsrBazdi
+Private Key in HEX: 7161B2F99B4F0DB740C27A35B55FDDAE0FD90A8C23789291106667D29F1859F6
+Private Key in WIF: L127LBiTmhFXoXsz1qymwNrbsmk1s71kBycoi5VH3i22tDekzYY1
 ================================================================
-Network type:
-    MAINNET
-Public key format:
-    COMPRESSED
-Generated Bitcoin address:
-    1P3vwh8kyhWszcqvAaBS6JBP5dxNXdef8R
+Network type: MAINNET
+Public key format: COMPRESSED
+Generated Bitcoin address: 193GxFgNCtpvsYPnWErEvXNETgGiJ7HG5F
 ================================================================
 ```

@@ -84,13 +84,13 @@ def gen_bitcoin_addr_helper():
     priv_key_fmt = None
     while priv_key_fmt not in BITCOIN_GEN_HELPERS:
         priv_key_fmt = input(
-            'Private key format (%s):\n\t' % str_priv_key_fmts)
+            'Private key format (%s): ' % str_priv_key_fmts)
         priv_key_fmt = priv_key_fmt.upper()
     bitcoin_addr, network_type, key_fmt = BITCOIN_GEN_HELPERS[priv_key_fmt]()
     print('=' * 64)
-    print('Network type:\n\t%s' % network_type)
-    print('Public key format:\n\t%s' % key_fmt)
-    print('Generated Bitcoin address:\n\t%s' % bitcoin_addr)
+    print('Network type: %s' % network_type)
+    print('Public key format: %s' % key_fmt)
+    print('Generated Bitcoin address: %s' % bitcoin_addr)
     print('=' * 64)
     return bitcoin_addr
 
