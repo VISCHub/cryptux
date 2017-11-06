@@ -64,10 +64,11 @@ def bitcoin_addr_from_generator():
     print('=' * 32)
     print('Private Key in HEX: %s' % priv_key_hex)
     print('Private Key in WIF: %s' % priv_key_wif)
-    bitcoin_addr = bitcoin_addr_from_priv_key_wif(priv_key_wif)
-    bitcoin_addr = bitcoin_addr_from_priv_key_hex(priv_key_hex, network_type,
+    bitcoin_addr1 = bitcoin_addr_from_priv_key_wif(priv_key_wif)
+    bitcoin_addr2 = bitcoin_addr_from_priv_key_hex(priv_key_hex, network_type,
                                                   key_fmt)
-    return (bitcoin_addr, network_type, key_fmt)
+    assert bitcoin_addr1 == bitcoin_addr2
+    return (bitcoin_addr1, network_type, key_fmt)
 
 
 BITCOIN_GEN_HELPERS = {
