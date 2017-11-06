@@ -12,4 +12,5 @@ setup(name='CryptoWallets',
       author='Viet Le',
       author_email='vietlq85@gmail.com',
       url='https://github.com/VISCHub/crypto-wallets',
-      packages=['bitcoin'])
+      packages=['bitcoin'],
+      scripts=['cryptux'])

@@ -8,7 +8,7 @@ Code examples for operating on Cryptocurrency accounts and wallets. The library 
 The interactive tool `cryptux` is meant to be simple:
 
 ```
-$ ./cryptux
+$ cryptux
 usage: cryptux [-h] [-t {BITCOIN}]
 
 optional arguments:
@@ -29,7 +29,7 @@ To generate a Bitcoin address one is given 3 choices:
 A sample session would go like this:
 
 ```
-$ ./cryptux -t BITCOIN
+$ cryptux -t BITCOIN
 Private key format (WIF/HEX/NEW):
     new
 Network type (MAINNET/TESTNET): mainnet
