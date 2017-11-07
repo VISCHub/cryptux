@@ -48,13 +48,13 @@ To test the changes without publishing to PyPI, force pip to install from local 
 
     pip install -e /path/to/cryptux
 
-Use ``flake8`` to detect ``PEP8`` violations and format code nicely using ``yapf -i``, do check the project `YAPF <https://github.com/google/yapf>`_.
-
 Publishing to test PyPI can be done via this command:
 
 .. code-block:: bash
 
     python setup.py sdist upload -r testpypi
+
+Use ``flake8`` to detect ``PEP8`` violations and format code nicely using ``yapf -i``, do check the project `YAPF <https://github.com/google/yapf>`_.
 
 ================================================================
 Bitcoin
