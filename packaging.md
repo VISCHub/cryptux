@@ -8,6 +8,8 @@
 
 * http://setuptools.readthedocs.io/en/latest/setuptools.html#using-find-packages
 
+* https://pip.pypa.io/en/stable/reference/pip_install/
+
 * https://stackoverflow.com/questions/12966216/make-distutils-in-python-automatically-find-packages
 
 * https://stackoverflow.com/questions/17803829/how-to-customize-a-requirements-txt-for-multiple-environments
