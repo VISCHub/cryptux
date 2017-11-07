@@ -34,7 +34,7 @@ At the moment of writing, only Bitcoin is supported. Ethereum account support is
 Developer Guide
 ================================================================
 
-Before trying to run ``toos/cryptux`` locally, make sure it uses local libraries by running:
+Before trying to run ``tools/cryptux`` locally, make sure it uses local libraries by running:
 
 .. code-block:: bash
 
