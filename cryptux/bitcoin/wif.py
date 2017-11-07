@@ -1,4 +1,4 @@
-from cryptux.bitcoin.base58 import base58check
+from .base58 import Base58
 from cryptux.bitcoin.constants import MAINNET, TESTNET
 from cryptux.bitcoin.constants import COMPRESSED, UNCOMPRESSED
 from cryptux.bitcoin.constants import NETWORK_TYPES, PRIVKEY
@@ -15,4 +15,4 @@ def priv_key_to_wif(priv_key_raw, network_type, key_fmt):
         payload = priv_key_raw
     else:
         raise Exception('Invalid Public Key format: %s' % key_fmt)
-    return base58check(prefix, payload)
+    return Base58.base58check(prefix, payload)
