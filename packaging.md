@@ -1,5 +1,9 @@
 * https://badge.fury.io/
 
+* https://pypi.python.org/pypi/rstcheck
+* Pygments, docutils
+* Run: `rst2html5.py README.rst > yahoo.html`
+
 * https://docs.python.org/3/reference/import.html
 
 * http://setuptools.readthedocs.io/en/latest/setuptools.html#using-find-packages
