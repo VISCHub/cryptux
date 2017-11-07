@@ -8,7 +8,7 @@ from binascii import hexlify
 import cryptux.bitcoin.constants as BCONST
 from cryptux.bitcoin.constants import NETWORK_TYPES
 from cryptux.bitcoin.hashes import hash160, hash256
-from cryptux.bitcoin.base58 import base58_to_base256, base58check
+from cryptux import Base58
 
 
 def get_compressed_pub_key(pub_key_raw):
@@ -75,7 +75,7 @@ def priv_key_from_wif(priv_key_wif):
     wif_details = guess_wif_details(priv_key_wif)
     network_type = wif_details['network_type']
     key_fmt = wif_details['key_fmt']
-    decoded_wif = base58_to_base256(priv_key_wif)
+    decoded_wif = Base58.to_base256(priv_key_wif)
     # Verify the WIF string
     if key_fmt == BCONST.COMPRESSED:
         assert len(decoded_wif) == 38
@@ -122,13 +122,13 @@ def bitcoin_addr_from_pub_key(pub_key_formatted, network_type):
     version = NETWORK_TYPES[network_type][BCONST.PUBKEY]
 
     # Use Base58Check to obtain address
-    bitcoin_addr = base58check(version, vk_hash160)
+    bitcoin_addr = Base58.base58check(version, vk_hash160)
     return bitcoin_addr
 
 
 def verify_bitcoin_addr(bitcoin_addr):
     '''Verify Bitcoin address'''
-    bitcoin_addr_raw = base58_to_base256(bitcoin_addr)
+    bitcoin_addr_raw = Base58.to_base256(bitcoin_addr)
     assert len(bitcoin_addr_raw) == 25
     fmt_pubkey_hash = bitcoin_addr_raw[:21]
     checksum_4bytes = bitcoin_addr_raw[21:]
