@@ -2,7 +2,11 @@
 [![Build Status](https://travis-ci.org/VISCHub/cryptux.svg?branch=master)](https://travis-ci.org/VISCHub/cryptux)
 
 # cryptux
-Wallet for cryptocurrencies created with education purposes. You can use cryptux to operate on cryptocurrency wallets. You can interactivele generate accounts addresses to receive cryptocurrencies.
+
+A simple wallet for cryptocurrencies that can:
+
+* Create, import, export accounts
+* Sign transactions
 
 ## Usage
 
