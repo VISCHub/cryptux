@@ -1,3 +1,4 @@
+[![PyPI version](https://badge.fury.io/py/cryptux.svg)](https://badge.fury.io/py/cryptux)
 [![Build Status](https://travis-ci.org/VISCHub/cryptux.svg?branch=master)](https://travis-ci.org/VISCHub/cryptux)
 
 # cryptux

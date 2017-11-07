@@ -1,3 +1,5 @@
+* https://badge.fury.io/
+
 * https://docs.python.org/3/reference/import.html
 
 * http://setuptools.readthedocs.io/en/latest/setuptools.html#using-find-packages
