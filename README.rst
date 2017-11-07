@@ -42,13 +42,19 @@ Before trying to run ``tools/cryptux`` locally, make sure it uses local librarie
 
 It's highly recommended that you use the package ``virtualenvwrapper``.
 
-To test the changes without publishing to PyPi, force pip to install from local dir:
+To test the changes without publishing to PyPI, force pip to install from local dir:
 
 .. code-block:: bash
 
     pip install -e /path/to/cryptux
 
 Use ``flake8`` to detect ``PEP8`` violations and format code nicely using ``yapf -i``, do check the project `YAPF <https://github.com/google/yapf>`_.
+
+Publishing to test PyPI can be done via this command:
+
+.. code-block:: bash
+
+    python setup.py sdist upload -r testpypi
 
 ================================================================
 Bitcoin
