@@ -19,6 +19,18 @@ optional arguments:
 
 At the moment of writing, only Bitcoin is supported. Ethereum account support is coming soon.
 
+## Developer Guide
+
+Before trying to run `toos/cryptux` locally, make sure it uses local libraries by running:
+
+```
+python setup.py develop
+```
+
+It's highly recommended that you use the package `virtualenvwrapper`.
+
+Use `flake8` to detect `PEP8` violations and format code nicely using [yapf -i](https://github.com/google/yapf).
+
 ## Bitcoin
 
 To generate a Bitcoin address one is given 3 choices:
