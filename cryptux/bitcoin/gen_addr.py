@@ -5,10 +5,11 @@
 
 from ecdsa import SigningKey, SECP256k1
 from binascii import hexlify
-import cryptux.bitcoin.constants as BCONST
+from .constants import UNCOMPRESSED, COMPRESSED, MAINNET, TESTNET
+from .constants import PUBKEY, PRIVKEY
 from cryptux.bitcoin.constants import NETWORK_TYPES
 from cryptux.bitcoin.hashes import hash160, hash256
-from cryptux import Base58
+from .base58 import Base58
 
 
 def get_compressed_pub_key(pub_key_raw):
@@ -34,8 +35,8 @@ def get_uncompressed_pub_key(pub_key_raw):
 
 
 PUB_KEY_FORMATS = {
-    BCONST.COMPRESSED: get_compressed_pub_key,
-    BCONST.UNCOMPRESSED: get_uncompressed_pub_key,
+    COMPRESSED: get_compressed_pub_key,
+    UNCOMPRESSED: get_uncompressed_pub_key,
 }
 
 
@@ -43,13 +44,13 @@ def guess_wif_details(priv_key_wif):
     '''Deduce details of WIF private key'''
     # https://en.bitcoin.it/wiki/List_of_address_prefixes
     if priv_key_wif[0] == '5':
-        return {'network_type': BCONST.MAINNET, 'key_fmt': BCONST.UNCOMPRESSED}
+        return {'network_type': MAINNET, 'key_fmt': UNCOMPRESSED}
     elif priv_key_wif[0] in ['K', 'L']:
-        return {'network_type': BCONST.MAINNET, 'key_fmt': BCONST.COMPRESSED}
+        return {'network_type': MAINNET, 'key_fmt': COMPRESSED}
     elif priv_key_wif[0] == '9':
-        return {'network_type': BCONST.TESTNET, 'key_fmt': BCONST.UNCOMPRESSED}
+        return {'network_type': TESTNET, 'key_fmt': UNCOMPRESSED}
     elif priv_key_wif[0] == 'c':
-        return {'network_type': BCONST.TESTNET, 'key_fmt': BCONST.COMPRESSED}
+        return {'network_type': TESTNET, 'key_fmt': COMPRESSED}
     else:
         raise Exception('Unhandled WIF format')
 
@@ -77,20 +78,20 @@ def priv_key_from_wif(priv_key_wif):
     key_fmt = wif_details['key_fmt']
     decoded_wif = Base58.to_base256(priv_key_wif)
     # Verify the WIF string
-    if key_fmt == BCONST.COMPRESSED:
+    if key_fmt == COMPRESSED:
         assert len(decoded_wif) == 38
         network_prefix, priv_key_raw = decoded_wif[0:1], decoded_wif[1:33]
         padding, checksum = decoded_wif[33:34], decoded_wif[34:]
         payload = decoded_wif[:34]
         assert padding == b'\x01'
-    elif key_fmt == BCONST.UNCOMPRESSED:
+    elif key_fmt == UNCOMPRESSED:
         assert len(decoded_wif) == 37
         payload = decoded_wif[:33]
         checksum = decoded_wif[33:]
         network_prefix, priv_key_raw = payload[:1], payload[1:]
     else:
         raise Exception('Invalid key format: %s' % key_fmt)
-    assert network_prefix == NETWORK_TYPES[network_type][BCONST.PRIVKEY]
+    assert network_prefix == NETWORK_TYPES[network_type][PRIVKEY]
     assert hash256(payload)[:4] == checksum
     return (priv_key_raw, network_type, key_fmt)
 
@@ -119,7 +120,7 @@ def bitcoin_addr_from_pub_key(pub_key_formatted, network_type):
     # Perform SHA-256 hashing on the public key
     # Perform RIPEMD-160 hashing on the result of SHA-256
     vk_hash160 = hash160(pub_key_formatted)
-    version = NETWORK_TYPES[network_type][BCONST.PUBKEY]
+    version = NETWORK_TYPES[network_type][PUBKEY]
 
     # Use Base58Check to obtain address
     bitcoin_addr = Base58.base58check(version, vk_hash160)
