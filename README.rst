@@ -16,7 +16,7 @@ A simple wallet for cryptocurrencies that can:
 Usage
 ================================================================
 
-The interactive tool `cryptux` is meant to be simple:
+The interactive tool ``cryptux`` is meant to be simple:
 
 .. code-block::
 
@@ -34,15 +34,15 @@ At the moment of writing, only Bitcoin is supported. Ethereum account support is
 Developer Guide
 ================================================================
 
-Before trying to run `toos/cryptux` locally, make sure it uses local libraries by running:
+Before trying to run ``toos/cryptux`` locally, make sure it uses local libraries by running:
 
 .. code-block:: bash
 
     python setup.py develop
 
-It's highly recommended that you use the package `virtualenvwrapper`.
+It's highly recommended that you use the package ``virtualenvwrapper``.
 
-Use `flake8` to detect `PEP8` violations and format code nicely using `yapf -i`, do check the project `YAPF <https://github.com/google/yapf>`_.
+Use ``flake8` to detect ``PEP8` violations and format code nicely using ``yapf -i``, do check the project `YAPF <https://github.com/google/yapf>`_.
 
 ================================================================
 Bitcoin
