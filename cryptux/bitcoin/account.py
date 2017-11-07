@@ -1,5 +1,7 @@
 from binascii import hexlify
+
 from ecdsa import SigningKey, VerifyingKey, SECP256k1
+
 from .wif import priv_key_to_wif
 from .gen_addr import bitcoin_addr_from_priv_key_hex
 
@@ -20,6 +22,11 @@ class Account(object):
         '''Return WIF for the Private Key - read only property'''
         return priv_key_to_wif(self.priv_key_raw,
                                self.network_type, self.key_fmt)
+
+    @property
+    def hex(self):
+        '''Return the Private Key in HEX - read only property'''
+        return hexlify(self.priv_key_raw)
 
     @property
     def address(self):
