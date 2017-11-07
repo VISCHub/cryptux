@@ -42,7 +42,7 @@ Before trying to run ``toos/cryptux`` locally, make sure it uses local libraries
 
 It's highly recommended that you use the package ``virtualenvwrapper``.
 
-Use ``flake8` to detect ``PEP8` violations and format code nicely using ``yapf -i``, do check the project `YAPF <https://github.com/google/yapf>`_.
+Use ``flake8`` to detect ``PEP8`` violations and format code nicely using ``yapf -i``, do check the project `YAPF <https://github.com/google/yapf>`_.
 
 ================================================================
 Bitcoin
