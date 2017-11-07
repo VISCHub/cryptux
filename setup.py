@@ -3,7 +3,7 @@
 # Read https://github.com/django-extensions/django-extensions/issues/92
 # Read: http://setuptools.readthedocs.io/en/latest/setuptools.html
 # Look for find_packages, packages, package_dir
-from setuptools import setup
+from setuptools import setup, find_packages
 import codecs
 
 import cryptux
@@ -20,7 +20,7 @@ setup(
     author_email='vietlq85@gmail.com',
     url='https://github.com/VISCHub/cryptux',
     install_requires=['ecdsa>=0.13'],
-    packages=['cryptux'],
+    packages=find_packages(),
     scripts=['tools/cryptux'],
     keywords=['crypto hdw wallet bitcoin ether'],
     classifiers=[
