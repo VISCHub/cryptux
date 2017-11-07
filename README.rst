@@ -48,10 +48,11 @@ Use ``flake8`` to detect ``PEP8`` violations and format code nicely using ``yapf
 Bitcoin
 ================================================================
 
-To generate a Bitcoin address one is given 3 choices:
-+ Generate from private key in HEX
-+ Generate from private key in WIF format
-+ Generate private key offline and derive account address
+There are 3 ways to generate a Bitcoin address with ``cryptux``:
+
+* Generate from private key in HEX
+* Generate from private key in WIF format
+* Generate private key offline and derive account address
 
 A sample session would go like this:
 
