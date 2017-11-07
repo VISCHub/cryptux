@@ -7,9 +7,7 @@ from binascii import hexlify
 
 from ecdsa import SigningKey, SECP256k1
 
-#from cryptux.bitcoin.gen_addr import bitcoin_addr_from_priv_key_hex
 from cryptux.bitcoin import Account, Wallet
-from cryptux.bitcoin.gen_addr import guess_wif_details
 from cryptux.bitcoin.constants import MAINNET, TESTNET
 from cryptux.bitcoin.constants import COMPRESSED, UNCOMPRESSED
 
@@ -24,9 +22,7 @@ def bitcoin_addr_from_wif():
     '''Generate Bitcoin address by requesting WIF'''
     priv_key_wif = getpass.getpass(prompt='WIF for Private Key: ')
     account = Wallet.account_from_wif(priv_key_wif)
-    wif_details = guess_wif_details(priv_key_wif)
-    return (account.address,
-            wif_details['network_type'], wif_details['key_fmt'])
+    return account.verbose_address
 
 
 def input_net_type_key_fmt():
@@ -47,9 +43,8 @@ def bitcoin_addr_from_hex():
     '''Generate Bitcoin address by requesting HEX data'''
     network_type, key_fmt = input_net_type_key_fmt()
     priv_key_hex = getpass.getpass(prompt='HEX for Private Key: ')
-    bitcoin_addr = bitcoin_addr_from_priv_key_hex(priv_key_hex, network_type,
-                                                  key_fmt)
-    return (bitcoin_addr, network_type, key_fmt)
+    account = Wallet.account_from_hex(priv_key_hex, network_type, key_fmt)
+    return account.verbose_address
 
 
 def bitcoin_addr_from_generator():
@@ -63,7 +58,7 @@ def bitcoin_addr_from_generator():
     print('=' * 32)
     print('Private Key in HEX: %s' % priv_key_hex)
     print('Private Key in WIF: %s' % priv_key_wif)
-    return (account.address, network_type, key_fmt)
+    return account.verbose_address
 
 
 BITCOIN_GEN_HELPERS = {

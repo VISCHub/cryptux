@@ -34,3 +34,8 @@ class Account(object):
         priv_key_hex = hexlify(self.priv_key_raw)
         return bitcoin_addr_from_priv_key_hex(
             priv_key_hex, self.network_type, self.key_fmt)
+
+    @property
+    def verbose_address(self):
+        '''Returns verbose Bitcoin address'''
+        return (self.address, self.network_type, self.key_fmt)
