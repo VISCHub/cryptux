@@ -105,7 +105,7 @@ class Base58(object):
 
     @staticmethod
     def base58check(version, payload):
-        '''Implements Base58Check standard function'''
+        '''Implements Base58Check standard function. The payload must be 160 bit'''
         # Add version byte in front of RIPEMD-160 hash (0x00 for Main Network)
         combined_payload = version + payload
 
