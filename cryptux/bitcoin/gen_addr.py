@@ -4,9 +4,9 @@
 # Terminal: openssl ecparam -list_curves | grep -i secp256k1
 
 from ecdsa import SigningKey, SECP256k1
-from binascii import hexlify
+from binascii import hexlify, unhexlify
 from .constants import UNCOMPRESSED, COMPRESSED, MAINNET, TESTNET
-from .constants import PUBKEY, PRIVKEY
+from .constants import PUBKEY, PRIVKEY, P2SH
 from cryptux.bitcoin.constants import NETWORK_TYPES
 from cryptux.bitcoin.hashes import hash160, hash256
 from .base58 import Base58
@@ -24,6 +24,16 @@ from .base58 import Base58
 #   Compressed:   Append 0x01 to the private key
 
 # Extra: https://github.com/Legrandin/pycryptodome
+
+# https://en.bitcoin.it/wiki/Base58Check_encoding
+# Pay-to-script-hash (p2sh):
+#   payload is: RIPEMD160(SHA256(redeemScript))
+#   where redeemScript is a script the wallet knows how to spend;
+#   version 0x05 (these addresses begin with the digit '3')
+# Pay-to-pubkey-hash (p2pkh):
+#   payload is RIPEMD160(SHA256(ECDSA_publicKey))
+#   where ECDSA_publicKey is a public key the wallet knows the private key for;
+#   version 0x00 (these addresses begin with the digit '1')
 
 
 def get_compressed_pub_key(pub_key_raw):
@@ -151,3 +161,15 @@ def verify_bitcoin_addr(bitcoin_addr):
     # Verify that the double SHA-256 has the same prefix as checksum_4bytes
     full_checksum = hash256(fmt_pubkey_hash)
     return checksum_4bytes == full_checksum[:4]
+
+
+def p2sh_addr_raw(redeem_script_raw, network_type):
+    '''Pay-to-script-hash address. redeem_script_raw is a raw string'''
+    version = NETWORK_TYPES[network_type][P2SH]
+    payload = hash160(redeem_script_raw)
+    return Base58.base58check(version, payload)
+
+
+def p2sh_addr_hex(redeem_script_hex, network_type):
+    '''Pay-to-script-hash address. redeem_script_hex is a hex string'''
+    return p2sh_addr_raw(unhexlify(redeem_script_hex), network_type)
