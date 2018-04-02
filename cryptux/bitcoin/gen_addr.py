@@ -17,7 +17,7 @@ from .base58 import Base58
 #   Compressed (32 bytes):
 #     + y-coordinate is even: 0x02 || x-coordinate
 #     + y-coordinate is odd:  0x03 || x-coordinate
-#   Uncompressed (65 bytes): 0x04 || x-coordinate || y-coordinate
+#   Uncompressed (65 bytes):  0x04 || x-coordinate || y-coordinate
 
 # Private Key Encoding for Bitcoin WIF
 #   Uncompressed: No padding
