@@ -11,6 +11,20 @@ from cryptux.bitcoin.constants import NETWORK_TYPES
 from cryptux.bitcoin.hashes import hash160, hash256
 from .base58 import Base58
 
+# http://www.secg.org/sec1-v2.pdf - Section 2.3.3
+# https://tools.ietf.org/html/rfc5480 - Section 2.2
+# Public Key Encoding
+#   Compressed (32 bytes):
+#     + y-coordinate is even: 0x02 || x-coordinate
+#     + y-coordinate is odd:  0x03 || x-coordinate
+#   Uncompressed (65 bytes): 0x04 || x-coordinate || y-coordinate
+
+# Private Key Encoding for Bitcoin WIF
+#   Uncompressed: No padding
+#   Compressed:   Append 0x01 to the private key
+
+# Extra: https://github.com/Legrandin/pycryptodome
+
 
 def get_compressed_pub_key(pub_key_raw):
     '''Represent public key in the compressed format'''
