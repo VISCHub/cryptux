@@ -1,2 +1,2 @@
-ecdsa==0.13
+ecdsa==0.13.3
 pytest==3.2.3
